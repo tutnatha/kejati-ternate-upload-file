@@ -1,0 +1,75 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>File upload</title>
+        <style>
+            .fileUpload
+            {
+               background-image: url("pages/login.jpg");
+            }
+            
+        </style>
+    </h:head>
+    <h:body styleClass="fileUpload">
+        
+        <h:panelGroup layout="block" style="width:200px;float:left;margin-top:210px;margin-left:670px" >
+        <h:form id="uploadFiles" enctype="multipart/form-data" style="width:500px">
+            <p:growl id="msg"></p:growl>
+            <p:fileUpload value="#{fileUploadManagedBean.file}" mode="advanced" multiple="true" auto="true" 
+                                fileUploadListener="#{fileUploadManagedBean.fileUploadListener}" update=":uploadFiles:filesList :uploadFiles:msg"></p:fileUpload>
+        
+        
+        <h:panelGroup layout="block" id="filesList">
+                        
+            
+            
+            <h:panelGroup layout="block" style="margin-top:30px">
+      <p:selectManyCheckbox id="grid" value="#{fileUploadManagedBean.selectedFiles}" layout="grid" columns="3">
+
+             <f:selectItems value="#{fileUploadManagedBean.fileList}" var="file" itemLabel="#{file.fileName}" itemValue="#{file.fileName}" />         
+        </p:selectManyCheckbox>        
+            </h:panelGroup>            
+        </h:panelGroup>
+            
+            <h:panelGroup layout="block" style="margin-top:20px">
+                
+                <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+        <p:outputLabel  value="Select Hall:" />
+        <p:selectOneMenu id="console" value="#{fileUploadManagedBean.eventHall}">
+            <f:selectItem itemLabel="Select Hall" itemValue="" />
+            <f:selectItem itemLabel="Hall-1" itemValue="KRISHNA-PC\\hall1" />
+            <f:selectItem itemLabel="Hall-2" itemValue="KRISHNA-PC\\hall2" />
+            <f:selectItem itemLabel="Hall-3" itemValue="KRISHNA-PC\\hall3" />
+        </p:selectOneMenu>
+           </h:panelGrid>
+              <h:panelGroup layout="block" style="margin-top:30px">
+            <p:commandButton value="Push Files"  action="#{fileUploadManagedBean.pushFiles()}"  update=":uploadFiles:selectedfilesList" icon="ui-icon-check" />
+    </h:panelGroup>  
+                
+            </h:panelGroup>
+            
+            
+            <h:panelGroup layout="block" id="selectedfilesList">
+            
+                <h:panelGroup layout="block" style="margin-top:30px">
+
+                
+                <p:dataList value="#{fileUploadManagedBean.selectedFiles}" var="selectedFile" type="ordered">
+        <f:facet name="header">
+            Pushed Files
+        </f:facet>
+              #{selectedFile.toString()}
+                
+            </p:dataList>
+                
+                </h:panelGroup>
+            </h:panelGroup>
+            
+            
+        </h:form>
+            </h:panelGroup>
+    </h:body>
+</html>
